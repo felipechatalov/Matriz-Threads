@@ -2,6 +2,10 @@ use std::thread;
 use rand::Rng;
 use std::time;
 
+mod conway;
+use conway::*;
+
+
 
 fn create_matrix_from_random(maxi: i32, maxj: i32, threshold: i32) -> Vec<Vec<i32>> {
     let mut rng = rand::thread_rng();
@@ -187,8 +191,9 @@ fn mul_matrix_threads(m1: &Vec<Vec<i32>>, m2: &Vec<Vec<i32>>, thr: usize) -> Vec
 
 fn main() {
 
-    let matrix1 = create_matrix_from_random(500, 500, 10);
-    let matrix2 = create_matrix_from_random(500, 500, 10);
+    // escolhe o tamanho das matrizes, linhas, colunas e valor maximo para cada elemento
+    let matrix1 = create_matrix_from_random(100, 100, 10);
+    let matrix2 = create_matrix_from_random(100, 100, 10);
     // print_matrix(&matrix1, 3);
     // print_matrix(&matrix2, 3);
 
@@ -199,6 +204,7 @@ fn main() {
     println!("Sum - Sequential: {} ms", end.duration_since(start).as_millis());
 
     start = time::Instant::now();
+    // o terceiro parametro é o numero de threads
     let result_t = sum_matrix_threads(&matrix1, &matrix2, 10);
     end = time::Instant::now();
     println!("Sum - Threads: {} ms", end.duration_since(start).as_millis());
@@ -234,7 +240,9 @@ fn main() {
     assert_eq!(result_s, result_t);
 
 
-
-
+    // recomendo rodar o jogo em codigo separado porem é possivel rodar aqui tbm
+    
+    conway::instantiate_game(800, 800, 0, 4);
+    conway::instantiate_game(800, 800, 1, 4);
 
 }
